@@ -14,6 +14,8 @@ public class ViewerUI_Manager : Singleton<ViewerUI_Manager>
 
     [SerializeField] private GameObject annotationViewerObject;
 
+    [SerializeField] private UnityEngine.UI.Text textUI;
+
     private MenuType activeMenu;
     private ShapeType activeShapeTool;
 
@@ -71,7 +73,6 @@ public class ViewerUI_Manager : Singleton<ViewerUI_Manager>
 
         if (activeMenu != MenuType.None && activeShapeTool != ShapeType.None) 
         {
-
             menuList.Find(menu => menu.MenuTypeProp == activeMenu).ToggleOff();
             shapeToolsList.Find(shapeTool => shapeTool.ShapeTypeProp == activeShapeTool).ToggleOff();
 
@@ -243,6 +244,11 @@ public class ViewerUI_Manager : Singleton<ViewerUI_Manager>
     public void AddText()
     {
         AnnotationsManager.Instance.AddText();
+    }
+
+    public void UpdateText(string newText)
+    {
+        textUI.text=newText;
     }
 
     #endregion

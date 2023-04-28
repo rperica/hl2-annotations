@@ -317,9 +317,10 @@ public class AnnotationsManager : Singleton<AnnotationsManager>
 
     #endregion
 
+    #region Text
     public void CreateAndAddTextAnnotation()
     {
-        Annotation textAnnotation = CreateShape<Text>(textPrefab); // CreateShape --> not convenient name 
+        Annotation textAnnotation = CreateShape<Text>(textPrefab); // CreateShape --> not convenient name
 
         if (textAnnotation != null)
         {
@@ -346,7 +347,7 @@ public class AnnotationsManager : Singleton<AnnotationsManager>
             UnSelectAnnotation(previousSelectedAnnotation);
         }
 
-       ViewerUI_Manager.Instance.ToggleSelectedTextAnnotation();
+        ViewerUI_Manager.Instance.ToggleSelectedTextAnnotation();
     }
 
     public void DeleteText()
@@ -364,6 +365,20 @@ public class AnnotationsManager : Singleton<AnnotationsManager>
         {
             Text text = annotationsList.Find(a => a.AnnotationID == selectedAnnotation) as Text;
             text.ToggleKeyBoard();
+
+            Microsoft.MixedReality.Toolkit.Experimental.UI.NonNativeKeyboard.Instance.OnTextSubmitted += SubmittText;
         }
     }
+
+    public void SubmittText(System.Object sender, System.EventArgs args)
+    {
+        Text text = annotationsList.Find(a => a.AnnotationID == selectedAnnotation) as Text;
+        text.SubmitText(sender);
+    }
+
+    public void UpdateText(string newText)
+    {
+        ViewerUI_Manager.Instance.UpdateText(newText);
+    }
+    #endregion
 }

@@ -4,7 +4,10 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/hl2-annotations/Scenes/AnnotationsScene.unity
+    guid: bd0e941fa5c84fc458a93779316acfc6
   m_configObjects:
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: b9dbfe33420a9c94d99988c9a8447787, type: 2}
     com.unity.xr.openxr.settings4: {fileID: 11400000, guid: fd5f19a8012f668409058d931a6819d0, type: 2}
