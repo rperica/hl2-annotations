@@ -14,7 +14,8 @@ public class ViewerUI_Manager : Singleton<ViewerUI_Manager>
 
     [SerializeField] private GameObject annotationViewerObject;
 
-    [SerializeField] private UnityEngine.UI.Text textUI;
+    //[SerializeField] private UnityEngine.UI.Text textUI;
+    [SerializeField] private TextMesh textUI;
 
     private MenuType activeMenu;
     private ShapeType activeShapeTool;
