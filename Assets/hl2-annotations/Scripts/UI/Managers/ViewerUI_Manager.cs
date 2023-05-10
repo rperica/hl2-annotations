@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Microsoft.MixedReality.Toolkit.Utilities.Solvers;
+using Microsoft.MixedReality.Toolkit.Input;
 
 public class ViewerUI_Manager : Singleton<ViewerUI_Manager>
 {
@@ -13,9 +14,10 @@ public class ViewerUI_Manager : Singleton<ViewerUI_Manager>
     [SerializeField] private TextTool textTool;
 
     [SerializeField] private GameObject annotationViewerObject;
+    [SerializeField] private GameObject keyboardObject; 
 
-    //[SerializeField] private UnityEngine.UI.Text textUI;
     [SerializeField] private TextMesh textUI;
+    [SerializeField] private GazeProvider gazePos;
 
     private MenuType activeMenu;
     private ShapeType activeShapeTool;
@@ -252,6 +254,14 @@ public class ViewerUI_Manager : Singleton<ViewerUI_Manager>
         textUI.text=newText;
     }
 
+    private void KeyboardLook()
+    {
+        // Test
+        float distance = Vector3.Distance(gazePos.GazeOrigin, keyboardObject.transform.position);
+        Vector3 posToLook = gazePos.GazeDirection.normalized * distance * 2 + gazePos.GazeOrigin;
+        keyboardObject.transform.LookAt(posToLook);
+    }
+
     #endregion
 
     #endregion
@@ -268,5 +278,11 @@ public class ViewerUI_Manager : Singleton<ViewerUI_Manager>
         {
             radialView.enabled = true;
         }
+    }
+
+    private void Update()
+    {
+        KeyboardLook();
+        // var image=new Dicom.Imaging.DicomImage()
     }
 }

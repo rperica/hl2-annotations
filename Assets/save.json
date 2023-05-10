@@ -1,58 +1,42 @@
 {
-    "rulerDataList": [],
+    "rulerDataList": [
+        {
+            "annotationID": "ruler620",
+            "annotationType": 1,
+            "shapeType": 1,
+            "color": {
+                "r": 0.0,
+                "g": 0.0,
+                "b": 0.0,
+                "a": 1.0
+            },
+            "distance": 0.0,
+            "vertices": [
+                {
+                    "x": 0.5,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": 2.9406356811523439,
+                    "y": 0.399244099855423,
+                    "z": 0.30900493264198305
+                },
+                {
+                    "x": 2.782824993133545,
+                    "y": -0.2010849565267563,
+                    "z": 0.41773200035095217
+                },
+                {
+                    "x": 2.9990601539611818,
+                    "y": -0.09571134299039841,
+                    "z": 0.23100760579109193
+                }
+            ]
+        }
+    ],
     "rectangleDataList": [],
     "circleDataList": [],
     "triangleDataList": [],
-    "textDataList": [
-        {
-            "annotationID": "text204",
-            "annotationType": 2,
-            "text": "wwwwsddadwr",
-            "position": {
-                "x": 1.767845630645752,
-                "y": 0.36667945981025698,
-                "z": -0.3603404760360718
-            }
-        },
-        {
-            "annotationID": "text162",
-            "annotationType": 2,
-            "text": "",
-            "position": {
-                "x": -0.1774795651435852,
-                "y": 0.23210842907428742,
-                "z": 0.12992550432682038
-            }
-        },
-        {
-            "annotationID": "text758",
-            "annotationType": 2,
-            "text": "vvhh",
-            "position": {
-                "x": 10.161102294921875,
-                "y": 0.40673118829727175,
-                "z": 0.33045414090156557
-            }
-        },
-        {
-            "annotationID": "text560",
-            "annotationType": 2,
-            "text": "nn",
-            "position": {
-                "x": 6.635006427764893,
-                "y": -0.3092433214187622,
-                "z": -0.2714915871620178
-            }
-        },
-        {
-            "annotationID": "text227",
-            "annotationType": 2,
-            "text": "bbb",
-            "position": {
-                "x": 6.565850257873535,
-                "y": -0.2606281042098999,
-                "z": 0.22153477370738984
-            }
-        }
-    ]
+    "textDataList": []
 }
