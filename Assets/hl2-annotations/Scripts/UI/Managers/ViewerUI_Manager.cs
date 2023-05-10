@@ -14,7 +14,7 @@ public class ViewerUI_Manager : Singleton<ViewerUI_Manager>
     [SerializeField] private TextTool textTool;
 
     [SerializeField] private GameObject annotationViewerObject;
-    [SerializeField] private GameObject keyboardObject; 
+    [SerializeField] private GameObject keyboardObject;
 
     [SerializeField] private TextMesh textUI;
     [SerializeField] private GazeProvider gazePos;
@@ -47,7 +47,7 @@ public class ViewerUI_Manager : Singleton<ViewerUI_Manager>
             menuList.Find(menu => menu.MenuTypeProp == activeMenu).Toggle();
         }
 
-        if(activeMenu==type)
+        if (activeMenu == type)
         {
             menuList.Find(menu => menu.MenuTypeProp == type).Toggle();
             activeMenu = MenuType.None;
@@ -74,7 +74,7 @@ public class ViewerUI_Manager : Singleton<ViewerUI_Manager>
     {
         AnnotationsManager.Instance.DeleteAllAnnotations();
 
-        if (activeMenu != MenuType.None && activeShapeTool != ShapeType.None) 
+        if (activeMenu != MenuType.None && activeShapeTool != ShapeType.None)
         {
             menuList.Find(menu => menu.MenuTypeProp == activeMenu).ToggleOff();
             shapeToolsList.Find(shapeTool => shapeTool.ShapeTypeProp == activeShapeTool).ToggleOff();
@@ -82,7 +82,7 @@ public class ViewerUI_Manager : Singleton<ViewerUI_Manager>
             activeMenu = MenuType.None;
             activeShapeTool = ShapeType.None;
         }
-        else if(activeMenu != MenuType.None)
+        else if (activeMenu != MenuType.None)
         {
             menuList.Find(menu => menu.MenuTypeProp == activeMenu).ToggleOff();
             textTool.ToggleOff();
@@ -116,16 +116,16 @@ public class ViewerUI_Manager : Singleton<ViewerUI_Manager>
 
     public void ToggleSelectedShapeAnnotation(ShapeType shapeType)
     {
-        if (activeMenu == MenuType.ShapeMenu && activeShapeTool != shapeType) 
+        if (activeMenu == MenuType.ShapeMenu && activeShapeTool != shapeType)
         {
             ToggleShapeTool(shapeType);
         }
-        else if(activeMenu != MenuType.ShapeMenu && activeShapeTool != shapeType)
+        else if (activeMenu != MenuType.ShapeMenu && activeShapeTool != shapeType)
         {
             ToggleMenu(MenuType.ShapeMenu.ToString());
             ToggleShapeTool(shapeType);
-        }   
-        else if(activeMenu!=MenuType.ShapeMenu && activeShapeTool==shapeType)
+        }
+        else if (activeMenu != MenuType.ShapeMenu && activeShapeTool == shapeType)
         {
             ToggleMenu(MenuType.ShapeMenu.ToString());
         }
@@ -135,7 +135,7 @@ public class ViewerUI_Manager : Singleton<ViewerUI_Manager>
 
     public void AddPoint()
     {
-        AnnotationsManager.Instance.RulerAddPoint(); 
+        AnnotationsManager.Instance.RulerAddPoint();
     }
 
     public void RemoveLastPoint()
@@ -147,7 +147,7 @@ public class ViewerUI_Manager : Singleton<ViewerUI_Manager>
     {
         AnnotationsManager.Instance.RulerDelete();
 
-        shapeToolsList.Find(tool=>tool.ShapeTypeProp==ShapeType.Ruler).Toggle();
+        shapeToolsList.Find(tool => tool.ShapeTypeProp == ShapeType.Ruler).Toggle();
         activeShapeTool = ShapeType.None;
     }
 
@@ -224,12 +224,12 @@ public class ViewerUI_Manager : Singleton<ViewerUI_Manager>
 
     public void ToggleSelectedTextAnnotation()
     {
-        if (activeMenu != MenuType.TextMenu) 
+        if (activeMenu != MenuType.TextMenu)
         {
             ToggleMenu(MenuType.TextMenu.ToString());
         }
-        
-        if(!textTool.IsActive)
+
+        if (!textTool.IsActive)
         {
             textTool.Toggle();
         }
@@ -251,18 +251,25 @@ public class ViewerUI_Manager : Singleton<ViewerUI_Manager>
 
     public void UpdateText(string newText)
     {
-        textUI.text=newText;
+        textUI.text = newText;
     }
 
     private void KeyboardLook()
     {
-        // Test
         float distance = Vector3.Distance(gazePos.GazeOrigin, keyboardObject.transform.position);
         Vector3 posToLook = gazePos.GazeDirection.normalized * distance * 2 + gazePos.GazeOrigin;
         keyboardObject.transform.LookAt(posToLook);
     }
 
     #endregion
+
+    #endregion
+
+    #region PaintMenu
+    public void EnablePainting()
+    {
+        AnnotationsManager.Instance.EnablePainting();
+    }
 
     #endregion
 
@@ -283,6 +290,5 @@ public class ViewerUI_Manager : Singleton<ViewerUI_Manager>
     private void Update()
     {
         KeyboardLook();
-        // var image=new Dicom.Imaging.DicomImage()
     }
 }

@@ -8,6 +8,7 @@ public enum MenuType
     ToolBarMenu,
     ShapeMenu,
     TextMenu,
+    PaintMenu
 }
 
 public class Menu : MonoBehaviour

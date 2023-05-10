@@ -22,6 +22,7 @@ public class AnnotationsManager : Singleton<AnnotationsManager>
     [SerializeField] private GameObject trianglePrefab;
     
     [SerializeField] private GameObject textPrefab;
+    [SerializeField] private GameObject paintManagerObject;
     #endregion
     #endregion
 
@@ -380,5 +381,13 @@ public class AnnotationsManager : Singleton<AnnotationsManager>
     {
         ViewerUI_Manager.Instance.UpdateText(newText);
     }
+    #endregion
+
+    #region Paint
+    public void EnablePainting()
+    {
+        paintManagerObject.SetActive(true);
+    }
+
     #endregion
 }
