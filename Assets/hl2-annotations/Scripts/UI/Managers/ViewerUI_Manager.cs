@@ -271,6 +271,11 @@ public class ViewerUI_Manager : Singleton<ViewerUI_Manager>
         AnnotationsManager.Instance.EnablePainting();
     }
 
+    public void ClearPaintings()
+    {
+        AnnotationsManager.Instance.ClearPaintings();
+    }
+
     #endregion
 
     public void ToggleRadialView()

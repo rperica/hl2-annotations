@@ -17,6 +17,8 @@ public abstract class Annotation : MonoBehaviour
     protected bool isSelected;
 
     public string AnnotationID { get { return annotationID; } }
+    public AnnotationType AnnotationType { get { return annotationType; } }
+
     public bool IsSelected 
     { 
         get { return isSelected; } 

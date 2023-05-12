@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+using Microsoft.MixedReality.Toolkit.Input;
+
 public class AnnotationsManager : Singleton<AnnotationsManager>
 {
     #region Field
@@ -15,14 +17,23 @@ public class AnnotationsManager : Singleton<AnnotationsManager>
     public GameObject verticePrefab;
 
     [Header("ShapePrefabs")]
-    
     [SerializeField] private GameObject rulerPrefab;
     [SerializeField] private GameObject rectanglePrefab;
     [SerializeField] private GameObject circlePrefab;
     [SerializeField] private GameObject trianglePrefab;
-    
+
+    [Header("OtherPrefabs")]
     [SerializeField] private GameObject textPrefab;
     [SerializeField] private GameObject paintManagerObject;
+    [SerializeField] private GameObject paintPrefab;
+
+    [Header("PaintSettings")]
+    public Material drawingMaterial;
+    public Color32 drawingColor;
+
+    public float startWidth = 0.04f;
+    public float endWidth = 0.04f;
+
     #endregion
     #endregion
 
@@ -42,7 +53,7 @@ public class AnnotationsManager : Singleton<AnnotationsManager>
 
     private void Awake()
     {
-        annotationsList = new List<Annotation>();    
+        annotationsList = new List<Annotation>();
     }
 
     #region Save/Load
@@ -55,8 +66,9 @@ public class AnnotationsManager : Singleton<AnnotationsManager>
         saveData.circleDataList = new List<CircleData>();
         saveData.triangleDataList = new List<TriangleData>();
         saveData.textDataList = new List<TextData>();
+        saveData.paintDataList = new List<PaintData>();
 
-        foreach(Annotation annotation in annotationsList)
+        foreach (Annotation annotation in annotationsList)
         {
             if (annotation is Ruler)
             {
@@ -68,20 +80,25 @@ public class AnnotationsManager : Singleton<AnnotationsManager>
                 Data data = annotation.Save<RectangleData>();
                 saveData.rectangleDataList.Add(data as RectangleData);
             }
-            else if(annotation is Circle)
+            else if (annotation is Circle)
             {
                 Data data = annotation.Save<CircleData>();
                 saveData.circleDataList.Add(data as CircleData);
             }
-            else if(annotation is Triangle)
+            else if (annotation is Triangle)
             {
                 Data data = annotation.Save<TriangleData>();
                 saveData.triangleDataList.Add(data as TriangleData);
             }
-            else if(annotation is Text)
+            else if (annotation is Text)
             {
                 Data data = annotation.Save<TextData>();
                 saveData.textDataList.Add(data as TextData);
+            }
+            else if (annotation is Paint)
+            {
+                Data data = annotation.Save<PaintData>();
+                saveData.paintDataList.Add(data as PaintData);
             }
         }
 
@@ -91,15 +108,15 @@ public class AnnotationsManager : Singleton<AnnotationsManager>
     public void Load()
     {
         SaveData saveData = SaveSystem.Load();
-        
-        foreach(RulerData rulerData in saveData.rulerDataList)
+
+        foreach (RulerData rulerData in saveData.rulerDataList)
         {
             Ruler rulerShape = CreateAnnotation(ShapeType.Ruler) as Ruler;
             rulerShape.LoadRuler(rulerData);
             annotationsList.Add(rulerShape);
         }
 
-        foreach(RectangleData rectangleData in saveData.rectangleDataList)
+        foreach (RectangleData rectangleData in saveData.rectangleDataList)
         {
             Rectangle rectangleShape = CreateAnnotation(ShapeType.Rectangle) as Rectangle;
             rectangleShape.LoadRectangle(rectangleData);
@@ -113,25 +130,32 @@ public class AnnotationsManager : Singleton<AnnotationsManager>
             annotationsList.Add(circleShape);
         }
 
-        foreach(TriangleData triangleData in saveData.triangleDataList)
+        foreach (TriangleData triangleData in saveData.triangleDataList)
         {
             Triangle triangleShape = CreateAnnotation(ShapeType.Triangle) as Triangle;
             triangleShape.LoadTriangle(triangleData);
             annotationsList.Add(triangleShape);
         }
-        
-        foreach(TextData textData in saveData.textDataList)
+
+        foreach (TextData textData in saveData.textDataList)
         {
             Text text = CreateShape<Text>(textPrefab); // not convenient
             text.LoadText(textData);
             annotationsList.Add(text);
+        }
+
+        foreach(PaintData paintData in saveData.paintDataList)
+        {
+            Paint paint = CreateShape<Paint>(paintPrefab); // not convenient
+            paint.LoadPaint(paintData);
+            annotationsList.Add(paint);
         }
     }
     #endregion
 
     public void DeleteAllAnnotations()
     {
-        foreach(Annotation annotation in annotationsList.ToList())
+        foreach (Annotation annotation in annotationsList.ToList())
         {
             annotation.Delete();
         }
@@ -147,13 +171,13 @@ public class AnnotationsManager : Singleton<AnnotationsManager>
     public void CreateAndAddShapeAnnotation(ShapeType type)
     {
         Annotation shapeAnnotation = CreateAnnotation(type);
-        
-        if (shapeAnnotation != null) 
+
+        if (shapeAnnotation != null)
         {
             previousSelectedAnnotation = selectedAnnotation;
             selectedAnnotation = shapeAnnotation.AnnotationID;
 
-            if (previousSelectedAnnotation != null) 
+            if (previousSelectedAnnotation != null)
             {
                 UnSelectAnnotation(previousSelectedAnnotation);
             }
@@ -167,14 +191,14 @@ public class AnnotationsManager : Singleton<AnnotationsManager>
     {
         annotationsList.Remove(annotationsList.Find(a => a.AnnotationID == selectedAnnotation));
         selectedAnnotation = null;
-    }    
+    }
 
     public void SelectShapeAnnotation(string selected, ShapeType shapeType)
     {
         previousSelectedAnnotation = selectedAnnotation;
         selectedAnnotation = selected;
 
-        if(selectedAnnotation != previousSelectedAnnotation)
+        if (selectedAnnotation != previousSelectedAnnotation)
         {
             UnSelectAnnotation(previousSelectedAnnotation);
         }
@@ -184,7 +208,7 @@ public class AnnotationsManager : Singleton<AnnotationsManager>
 
     public void UnSelectAnnotation(string selected)
     {
-        if (selected != null) 
+        if (selected != null)
         {
             annotationsList.Find(a => a.AnnotationID == selected).IsSelected = false;
         }
@@ -194,7 +218,7 @@ public class AnnotationsManager : Singleton<AnnotationsManager>
 
     public void RulerAddPoint()
     {
-        if (selectedAnnotation != null) 
+        if (selectedAnnotation != null)
         {
             Ruler ruler = annotationsList.Find(a => a.AnnotationID == selectedAnnotation) as Ruler;
             ruler.AddPoint();
@@ -222,10 +246,10 @@ public class AnnotationsManager : Singleton<AnnotationsManager>
     #endregion
 
     #region Rectangle
-    
+
     public void RectangleReset()
     {
-        if (selectedAnnotation != null) 
+        if (selectedAnnotation != null)
         {
             Rectangle rectangle = annotationsList.Find(a => a.AnnotationID == selectedAnnotation) as Rectangle;
             rectangle.Reset();
@@ -289,7 +313,7 @@ public class AnnotationsManager : Singleton<AnnotationsManager>
 
     private Annotation CreateAnnotation(ShapeType type)
     {
-        switch(type)
+        switch (type)
         {
             case ShapeType.Ruler:
                 return CreateShape<Ruler>(rulerPrefab);
@@ -307,12 +331,12 @@ public class AnnotationsManager : Singleton<AnnotationsManager>
                 return null;
         }
     }
-   
+
     private T CreateShape<T>(GameObject shapePrefab) where T : Annotation
     {
         GameObject shapeObjectInstance = GameObject.Instantiate(shapePrefab, gameObject.transform);
         shapeObjectInstance.AddComponent<T>();
-        
+
         return shapeObjectInstance.GetComponent<T>();
     }
 
@@ -327,7 +351,7 @@ public class AnnotationsManager : Singleton<AnnotationsManager>
         {
             previousSelectedAnnotation = selectedAnnotation;
             selectedAnnotation = textAnnotation.AnnotationID;
-    
+
             if (previousSelectedAnnotation != null)
             {
                 UnSelectAnnotation(previousSelectedAnnotation);
@@ -389,5 +413,34 @@ public class AnnotationsManager : Singleton<AnnotationsManager>
         paintManagerObject.SetActive(true);
     }
 
+    public void CreateAndAddPaintAnnotation()
+    {
+        Annotation paintAnnotation = CreateShape<Paint>(paintPrefab); // CreateShape --> not convenient name
+        annotationsList.Add(paintAnnotation);
+    }
+
+    public void StartDrawing(MixedRealityPointerEventData eventData)
+    {
+        Paint painter = annotationsList.Find(a => (a.AnnotationType == AnnotationType.Paint) && (a.IsSelected)) as Paint;
+        painter.FreeDraw(eventData);
+    }
+
+    public void StopDrawing()
+    {
+        Paint painter = annotationsList.Find(a => (a.AnnotationType == AnnotationType.Paint) && (a.IsSelected)) as Paint;
+        painter.UnSelectAndSavePositions();
+    }
+
+    public void ClearPaintings()
+    {
+        List<Annotation> list = annotationsList.FindAll(a => a.AnnotationType == AnnotationType.Paint);
+        foreach(Annotation annotation in list)
+        {
+            annotationsList.Remove(annotation);
+
+            Paint paint = annotation as Paint;
+            paint.Delete();
+        }
+    }
     #endregion
 }

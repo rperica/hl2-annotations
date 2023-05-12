@@ -10,6 +10,7 @@ public class SaveData
     public List<CircleData> circleDataList;
     public List<TriangleData> triangleDataList;
     public List<TextData> textDataList;
+    public List<PaintData> paintDataList;
 }
 
 [System.Serializable]
@@ -74,6 +75,12 @@ public class TextData : Data
 {
     public string text;
     public Vec3 position;
+}
+
+[System.Serializable]
+public class PaintData : Data
+{
+    public Vec3[] positions;
 }
 
 [System.Serializable]
