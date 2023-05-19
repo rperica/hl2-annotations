@@ -1725,6 +1725,7 @@ GameObject:
   - component: {fileID: 649800969}
   - component: {fileID: 649800968}
   - component: {fileID: 649800971}
+  - component: {fileID: 649800972}
   m_Layer: 0
   m_Name: DICOM_Image
   m_TagString: Untagged
@@ -1828,6 +1829,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dicomPlane: {fileID: 649800966}
   dicomImagePath: "C:\\Users\\Stipe\u017Divalji\u0107\\Desktop\\RokoPerica\\assets\\skull"
+--- !u!114 &649800972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 649800966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef0033e086073e948b2b384cca7d9dbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameObjectPosition: {x: 0, y: 0, z: 0}
 --- !u!1001 &723850436
 PrefabInstance:
   m_ObjectHideFlags: 0

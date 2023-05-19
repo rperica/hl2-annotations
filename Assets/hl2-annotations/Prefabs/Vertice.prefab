@@ -16,6 +16,8 @@ GameObject:
   - component: {fileID: 1250790647891494480}
   - component: {fileID: 5371856122275597858}
   - component: {fileID: 3470216021160424319}
+  - component: {fileID: -3095082692175699344}
+  - component: {fileID: -8802744272705944300}
   m_Layer: 0
   m_Name: Vertice
   m_TagString: Untagged
@@ -211,3 +213,30 @@ MonoBehaviour:
   onPlacingStopped:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &-3095082692175699344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1250790647891494509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5afd5316c63705643b3daba5a6e923bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTetherWhenManipulating: 0
+  IsBoundsHandles: 0
+--- !u!114 &-8802744272705944300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1250790647891494509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef0033e086073e948b2b384cca7d9dbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameObjectPosition: {x: 0, y: 0, z: 0}
